@@ -10,7 +10,7 @@ export type ParticipantStatus =
 
 export interface IRoomParticipant extends Document {
   room: Types.ObjectId;
-  user: Types.ObjectId;
+  user?: Types.ObjectId;
   role: ParticipantRole;
   status: ParticipantStatus;
   joinedAt?: Date;
@@ -20,7 +20,7 @@ export interface IRoomParticipant extends Document {
 const RoomParticipantSchema = new Schema<IRoomParticipant>(
   {
     room: { type: Schema.Types.ObjectId, ref: "Room", required: true },
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: Schema.Types.ObjectId, ref: "User"},
     role: {
       type: String,
       enum: ["host", "cohost", "member", "guest"],

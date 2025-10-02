@@ -18,6 +18,7 @@ export interface IRoom extends Document {
   status: RoomStatus;
   isPublic: boolean;
   maxParticipants?: number;
+  participentCount?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -50,7 +51,8 @@ const RoomSchema = new Schema<IRoom>(
       default: "scheduled",
     },
     isPublic: { type: Boolean, default: false },
-    maxParticipants: { type: Number, default: 50 },
+    maxParticipants: { type: Number, default: 20 },
+    participentCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

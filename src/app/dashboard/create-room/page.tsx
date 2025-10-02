@@ -4,13 +4,11 @@ import Layout from "@/components/layout/layout";
 import React from "react";
 import data from "../data.json";
 import { SectionCards } from "@/components/section-cards";
+import { RoomCards } from "@/components/room-cards";
 function page() {
   return (
     <Layout>
-      <SectionCards />
-      <div className="px-4 lg:px-6">
-        <ChartAreaInteractive />
-      </div>
+      <RoomCards />
       <DataTable data={data} />
     </Layout>
   );

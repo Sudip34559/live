@@ -3,6 +3,18 @@ import api from "./axiosInstance";
 export const getPlans = async () => {
   return await api.get("/plans/display/all");
 };
+export const createQuickRoom = async ({
+  title,
+  roomType,
+}: {
+  title: string;
+  roomType: string;
+}) => {
+  return await api.post("/room/quick-create", {
+    title,
+    roomType,
+  });
+};
 
 export const getCurrencyFromIP = async () => {
   try {

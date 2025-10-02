@@ -1,7 +1,9 @@
 import { connectDB } from "@/lib/database";
 import { Room } from "@/models/Room";
 import { User } from "@/models/User";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../../auth/[...nextauth]/providers";
 
 // Generate unique room name for Jitsi
 function generateRoomName(title: string): string {
@@ -46,10 +48,10 @@ export async function POST(request: NextRequest) {
   try {
     await connectDB();
 
-    const { title, description, roomType, createdBy } = await request.json();
+    const { title, roomType } = await request.json();
 
     // Validation
-    if (!title || !roomType || !createdBy) {
+    if (!title || !roomType) {
       return NextResponse.json(
         {
           error: "Title, roomType are required",
@@ -58,8 +60,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const session = await getServerSession(authOptions);
+
     // Check authorization
-    const authResult = await isAuthorizedToCreateRoom(createdBy);
+    const authResult = await isAuthorizedToCreateRoom(session?.user._id || "");
     if (!authResult.authorized) {
       return NextResponse.json(
         {
@@ -99,9 +103,8 @@ export async function POST(request: NextRequest) {
     // Create room data
     const roomData: any = {
       title,
-      description,
       roomType,
-      createdBy,
+      createdBy: session?.user._id,
       roomName,
       date,
       startTime,
