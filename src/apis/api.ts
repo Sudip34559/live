@@ -6,22 +6,23 @@ export const getPlans = async () => {
 export const createQuickRoom = async ({
   title,
   roomType,
+  timeZone,
 }: {
   title: string;
   roomType: string;
+  timeZone: string;
 }) => {
   return await api.post("/room/quick-create", {
     title,
     roomType,
+    timeZone,
   });
 };
 
 export const getCurrencyFromIP = async () => {
   try {
-    const res = await fetch("https://ipwho.is/");
-    const { country_code } = await res.json();
-    console.log(country_code);
-
+    const res = await api.get("https://ipwho.is/");
+    const { country_code } = await res.data;
     const currencyMapping: any = {
       // EUR countries (Eurozone)
       AD: "EUR", // Andorra
@@ -83,4 +84,11 @@ export const getCurrencyFromIP = async () => {
     console.error("Error fetching currency:", error);
     return "USD"; // fallback
   }
+};
+
+export const getTimeZone = async () => {
+  const res = await api.get("https://ipwho.is/");
+  const data = await res.data;
+  console.log(data.timezone);
+  return data.timezone;
 };

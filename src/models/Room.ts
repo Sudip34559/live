@@ -14,7 +14,7 @@ export interface IRoom extends Document {
   date: Date;
   startTime: string;
   endTime: string;
-  endDate?: Date;
+  timeZone?: string;
   status: RoomStatus;
   isPublic: boolean;
   maxParticipants?: number;
@@ -39,12 +39,7 @@ const RoomSchema = new Schema<IRoom>(
     date: { type: Date, required: true },
     startTime: { type: String, required: true },
     endTime: { type: String, required: true },
-    endDate: {
-      type: Date,
-      default: function (this: IRoom) {
-        return this.date;
-      },
-    },
+    timeZone: { type: String },
     status: {
       type: String,
       enum: ["scheduled", "live", "completed", "cancelled"],

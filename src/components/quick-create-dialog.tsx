@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -31,6 +30,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { createQuickRoom } from "@/apis/api";
+import { useSession } from "next-auth/react";
 
 interface QuickCreateProps {
   isOpen: boolean;
@@ -45,13 +45,17 @@ const FormSchema = z.object({
 });
 
 export function QuickCreate({ isOpen, onOpenChange }: QuickCreateProps) {
+  const { data: session } = useSession();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // console.log(timeZone);
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log("submit");
-    await createQuickRoom(data).then((res) => {
+    await createQuickRoom({ ...data, timeZone }).then((res) => {
       if (res.data.success) {
         console.log(res.data);
         form.reset({
@@ -84,7 +88,11 @@ export function QuickCreate({ isOpen, onOpenChange }: QuickCreateProps) {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Room title" {...field} />
+                    <Input
+                      placeholder="Room title"
+                      {...field}
+                      defaultValue={`${session?.user.name}'s room`}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

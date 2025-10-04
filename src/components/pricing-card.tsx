@@ -1,4 +1,3 @@
-
 import { cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
 import { ArrowRight, BadgeCheck, MoreHorizontal } from "lucide-react";
@@ -8,6 +7,7 @@ import { IPlan } from "@/types/types";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCurrencyFromIP } from "@/apis/api";
+import { Skeleton } from "./ui/skeleton";
 
 export const PricingCard = ({
   tier,

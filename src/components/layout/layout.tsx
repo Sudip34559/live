@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <SiteHeader />
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 overflow-x-scroll scrollbar-thin scrollbar-thumb-[#8670c7] scrollbar-track-[#f7f3f900] dark:scrollbar-thumb-[#ad99e2] dark:scrollbar-track-[#1c191700]">
               {children}
             </div>
           </div>

@@ -63,7 +63,7 @@ export async function GET(
         aud: "jitsi",
         iss: process.env.JITSI_APP_ID,
         sub: process.env.JITSI_DOMAIN,
-        room: room.roomName,
+        room: room._id,
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 4,
         context: {
           user: {
@@ -79,7 +79,7 @@ export async function GET(
         aud: "jitsi",
         iss: process.env.JITSI_APP_ID,
         sub: process.env.JITSI_DOMAIN,
-        room: room.roomName,
+        room: room._id,
         exp: Math.floor(Date.now() / 1000) + 60 * 60,
         context: {
           user: {

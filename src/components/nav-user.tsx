@@ -29,7 +29,7 @@ export function NavUser() {
   const { isMobile } = useSidebar();
   const { data: session } = useSession();
 
-  console.log(session?.user?.image);
+  // console.log(session?.user?.image);
 
   return (
     <SidebarMenu>

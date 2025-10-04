@@ -4,7 +4,7 @@ import { User } from "@/models/User";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/providers";
-
+import { DateTime } from "luxon";
 // Generate unique room name for Jitsi
 function generateRoomName(title: string): string {
   const timestamp = Date.now();
@@ -48,8 +48,11 @@ export async function POST(request: NextRequest) {
   try {
     await connectDB();
 
-    const { title, roomType } = await request.json();
-
+    const {
+      title,
+      roomType,
+      timeZone = "Asia/Calcutta",
+    } = await request.json();
     // Validation
     if (!title || !roomType) {
       return NextResponse.json(
@@ -74,29 +77,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const now = new Date();
-
-    const startHour = now.getHours();
-    const startMinute = now.getMinutes();
-
-    // Format start time (HH:MM)
-    const startTime = `${String(startHour).padStart(2, "0")}:${String(
-      startMinute
-    ).padStart(2, "0")}`;
-
-    // Auto set end = start + 4 hours
-    const eDate = new Date(now.getTime() + 4 * 60 * 60 * 1000);
-
-    const endHour = eDate.getHours();
-    const endMinute = eDate.getMinutes();
-
-    const endTime = `${String(endHour).padStart(2, "0")}:${String(
-      endMinute
-    ).padStart(2, "0")}`;
+    // Current time in that timezone
+    const now = DateTime.now().setZone(timeZone);
 
     // Format date (YYYY-MM-DD)
-    const date = now.toISOString().split("T")[0];
-    const endDate = eDate.toISOString().split("T")[0];
+    const date = now.toISODate(); // "2025-10-03"
+
+    // Start time in UTC
+    const startTime = now.toUTC().toISO(); // e.g., "2025-10-03T03:00:00.000Z"
+
+    // End time in UTC (start + 4 hours)
+    const endTime = now.plus({ hours: 4 }).toUTC().toISO();
+
     // Generate unique room name for Jitsi
     const roomName = generateRoomName(title);
 
@@ -109,7 +101,7 @@ export async function POST(request: NextRequest) {
       date,
       startTime,
       endTime,
-      endDate,
+      timeZone,
       status: "live",
       isPublic: true,
       maxParticipants: 20,

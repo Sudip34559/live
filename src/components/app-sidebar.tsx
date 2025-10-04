@@ -46,6 +46,11 @@ const data = {
       icon: IconListDetails,
     },
     {
+      title: "Schedule Room",
+      url: "/dashboard/schedule-room",
+      icon: IconListDetails,
+    },
+    {
       title: "Analytics",
       url: "#",
       icon: IconChartBar,
@@ -163,7 +168,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="scrollbar-thin scrollbar-thumb-[#8670c7] scrollbar-track-[#e9d8fd00] dark:scrollbar-thumb-[#ad99e2] dark:scrollbar-track-[#2d253500] ">
         <NavMain items={data.navMain} />
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
