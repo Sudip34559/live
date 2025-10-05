@@ -206,4 +206,11 @@
   html.dark {
     @apply scrollbar-thumb-[#ad99e2] scrollbar-track-[#2d2535];
   }
+
+  .rbc-time-content {
+    @apply scrollbar-thin scrollbar-thumb-[#8670c7] scrollbar-track-[#e9d8fd00] overflow-x-hidden;
+  }
+  .rbc-time-content.dark {
+    @apply scrollbar-thumb-[#ad99e2] scrollbar-track-[#2d253500];
+  }
 }

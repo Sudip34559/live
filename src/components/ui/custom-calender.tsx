@@ -17,9 +17,10 @@ import { AlertTriangle, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { isSameDay } from "date-fns";
 import moment from "moment";
+import { AgendaDateProps } from "react-big-calendar";
 
 // react-big-calendar passes date and label props
-interface MyCustomMonthHeaderProps {
+interface MyCustomHeaderProps {
   label: string;
   date: Date;
   localizer: any;
@@ -38,7 +39,7 @@ interface DateHeaderProps {
 
 // Custom Event Component
 const CustomEvent = ({ event }: { event: any }) => (
-  <div className="px-2 py-1  text-xs font-medium overflow-hidden bg-[#fca5a5]">
+  <div className="px-2 py-1 w-full h-full  text-xs font-medium overflow-hidden bg-[#fca5a5]">
     <div className="font-semibold truncate text-[#2d2535]">{event.title}</div>
     {event.description && (
       <div className="text-xs opacity-90 truncate text-[#2d2535]">
@@ -98,19 +99,65 @@ const CustomToolbar = ({ label, onNavigate, onView, view }: any) => {
   );
 };
 
-function CustomMonthHeader({
-  label,
-  date,
-  localizer,
-}: MyCustomMonthHeaderProps) {
+function CustomMonthHeader({ label, date, localizer }: MyCustomHeaderProps) {
   // Example: show day name abbreviation (Mon, Tue...) using localizer
   const weekday = localizer.format(date, "ddd");
 
   return (
     <div className="w-full border-collapse">
-      <div className="bg-muted/50 hover:bg-muted/70 transition-colors">
+      <div className="">
         <TableCell className="text-center font-medium text-sm text-foreground p-2 uppercase tracking-wide">
           {weekday}
+        </TableCell>
+      </div>
+    </div>
+  );
+}
+
+function CustomWeekHeader({ label, date, localizer }: MyCustomHeaderProps) {
+  const weekday = localizer.format(date, "ddd");
+  const dayNum = localizer.format(date, "D"); // numeric day
+
+  return (
+    <div className="w-full border-collapse">
+      <div className="bg-muted/50 hover:bg-muted/70 transition-colors">
+        <TableCell className="text-center font-semibold text-sm text-foreground p-2 uppercase tracking-wide">
+          <div className="flex  items-center justify-center gap-2 mb-2">
+            <span>{weekday}</span>
+            <span className="text-xs opacity-70">{dayNum}</span>
+          </div>
+        </TableCell>
+      </div>
+    </div>
+  );
+}
+
+function CustomDayHeader({ label, date, localizer }: MyCustomHeaderProps) {
+  const weekday = localizer.format(date, "dddd"); // e.g. Monday
+  const day = localizer.format(date, "D"); // e.g. 7
+  const month = localizer.format(date, "MMM"); // e.g. Oct
+
+  return (
+    <div className="w-full border-collapse">
+      <div className="bg-muted/50 hover:bg-muted/70 transition-colors">
+        <TableCell className="text-center font-semibold text-sm text-foreground p-2 uppercase tracking-wide">
+          <div className=" flex items-center justify-center gap-2">
+            <span>{weekday}</span>
+            <span className="text-xs opacity-70">
+              {day} {month}
+            </span>
+          </div>
+        </TableCell>
+      </div>
+    </div>
+  );
+}
+function CustomAgendaDate({ label }: AgendaDateProps) {
+  return (
+    <div className="w-full border-collapse">
+      <div className="bg-muted/50 hover:bg-muted/70 transition-colors">
+        <TableCell className="text-left font-medium text-sm text-foreground p-2 tracking-wide">
+          {label}
         </TableCell>
       </div>
     </div>
@@ -154,4 +201,12 @@ function CustomDateHeader({ date, onAddEvent }: DateHeaderProps) {
   );
 }
 
-export { CustomMonthHeader, CustomEvent, CustomToolbar, CustomDateHeader };
+export {
+  CustomMonthHeader,
+  CustomWeekHeader,
+  CustomDayHeader,
+  CustomAgendaDate,
+  CustomEvent,
+  CustomToolbar,
+  CustomDateHeader,
+};
