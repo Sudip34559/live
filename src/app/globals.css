@@ -201,6 +201,8 @@
   }
   html {
     @apply scrollbar-thin scrollbar-thumb-[#8670c7] scrollbar-track-[#e9d8fd] overflow-x-hidden;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
   }
 
   html.dark {
