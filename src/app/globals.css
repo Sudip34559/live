@@ -216,3 +216,13 @@
     @apply scrollbar-thumb-[#ad99e2] scrollbar-track-[#2d253500];
   }
 }
+@theme inline {
+  --animate-scroll: scroll var(--animation-duration, 40s)
+    var(--animation-direction, forwards) linear infinite;
+
+  @keyframes scroll {
+    to {
+      transform: translate(calc(-50% - 0.5rem));
+    }
+  }
+}
