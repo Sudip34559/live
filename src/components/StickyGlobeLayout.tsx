@@ -1,111 +1,113 @@
 "use client";
 import { useEffect, useRef } from "react";
 import createGlobe from "cobe";
-import { Globe } from "./ui/Globe";
+import dynamic from "next/dynamic";
+import {
+  Code,
+  Database,
+  Globe,
+  Smartphone,
+  Shield,
+  Zap,
+  Users,
+  Rocket,
+} from "lucide-react";
+import GlassIcons from "./GlassIcons";
+import { PlusSymbol } from "./PlusSymbol";
 // Your existing Globe component
-
+const World = dynamic(() => import("./ui/Globe").then((m) => m.Globe), {
+  ssr: false,
+});
 const StickyGlobeLayout = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left side - Scrolling content */}
-      <div className="flex-1 pr-8 lg:pr-12">
-        <div className="space-y-16 py-16">
-          {/* Section 1 */}
-          <section className="max-w-2xl">
-            <h2 className="text-4xl font-bold mb-6 text-gray-900">
-              Welcome to Our Platform
-            </h2>
-            <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              Discover how our innovative solutions can transform your business.
-              We provide cutting-edge technology that adapts to your needs and
-              scales with your growth.
-            </p>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              Our platform offers seamless integration, powerful analytics, and
-              intuitive user experiences that drive results and exceed
-              expectations.
-            </p>
-          </section>
-
-          {/* Section 2 */}
-          <section className="max-w-2xl">
-            <h2 className="text-4xl font-bold mb-6 text-gray-900">
-              Global Reach
-            </h2>
-            <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              Connect with customers worldwide through our global
-              infrastructure. Our network spans across continents, ensuring
-              reliable service wherever your business takes you.
-            </p>
-            <ul className="list-disc list-inside text-lg text-gray-600 space-y-2">
-              <li>24/7 global support coverage</li>
-              <li>Multi-region data centers</li>
-              <li>Localized experiences</li>
-              <li>Compliance with international standards</li>
-            </ul>
-          </section>
-
-          {/* Section 3 */}
-          <section className="max-w-2xl">
-            <h2 className="text-4xl font-bold mb-6 text-gray-900">
-              Innovation & Technology
-            </h2>
-            <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              Stay ahead of the curve with our latest technological innovations.
-              We continuously invest in research and development to bring you
-              the most advanced solutions in the market.
-            </p>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              From artificial intelligence to blockchain technology, we leverage
-              the latest tools to create solutions that drive your success.
-            </p>
-          </section>
-
-          {/* Section 4 */}
-          <section className="max-w-2xl">
-            <h2 className="text-4xl font-bold mb-6 text-gray-900">
-              Customer Success
-            </h2>
-            <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              Our commitment to your success goes beyond just providing
-              technology. We partner with you every step of the way to ensure
-              you achieve your business objectives.
-            </p>
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <blockquote className="text-lg italic text-gray-700">
-                "This platform has revolutionized how we operate globally. The
-                results speak for themselves."
-              </blockquote>
-              <cite className="block mt-4 text-sm text-gray-500">
-                — CEO, Fortune 500 Company
-              </cite>
+      <div className="flex-1 flex flex-col">
+        {featuresArray.map((item, index) => (
+          <div
+            key={index}
+            className="flex items-start gap-7 p-4 w-full h-[200px] border-b border-border"
+          >
+            <div className="h-full flex items-center text-neutral-600 dark:text-neutral-400 ">
+              <GlassIcons
+                item={{
+                  icon: <item.icon size={32} />,
+                  color: "purple",
+                  label: item.title,
+                }}
+              />
             </div>
-          </section>
-
-          {/* Section 5 */}
-          <section className="max-w-2xl pb-16">
-            <h2 className="text-4xl font-bold mb-6 text-gray-900">
-              Get Started Today
-            </h2>
-            <p className="text-lg text-gray-600 leading-relaxed mb-8">
-              Ready to transform your business? Join thousands of companies
-              worldwide who trust our platform to drive their success.
-            </p>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
-              Start Your Journey
-            </button>
-          </section>
-        </div>
+            <div className="  mb-2 z-10 px-2 flex-1 h-full flex flex-col gap-2 justify-center">
+              <span className="group-hover/feature:translate-x-2 font-bold transition duration-200 inline-block text-neutral-800 dark:text-neutral-100">
+                {item.title}
+              </span>
+              <p className="text-sm text-neutral-600 w-full dark:text-neutral-300  relative z-10 px-2">
+                {item.description}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Right side - Sticky globe */}
-      <div className=" lg:w-1/2 xl:w-2/5 border-l border-border">
+      <div className=" w-1/2 border-l border-b border-border hidden lg:block relative">
+        <PlusSymbol className="top-[-12px] left-[-12px]" />
+        <PlusSymbol className="bottom-[-18px] left-[-12px]" />
         <div className="sticky top-0 h-screen flex items-center justify-center">
-          <Globe className="drop-shadow-lg" />
+          <World className="drop-shadow-lg" />
         </div>
       </div>
     </div>
   );
 };
-
+const featuresArray = [
+  {
+    title: "Full-Stack Development",
+    icon: Code,
+    description:
+      "Build complete web applications from frontend to backend with modern technologies and best practices.",
+  },
+  {
+    title: "Database Integration",
+    icon: Database,
+    description:
+      "Seamlessly connect and manage data with MongoDB, PostgreSQL, and other database solutions.",
+  },
+  {
+    title: "Global Deployment",
+    icon: Globe,
+    description:
+      "Deploy your applications worldwide with CDN support and optimized performance across regions.",
+  },
+  {
+    title: "Mobile Responsive",
+    icon: Smartphone,
+    description:
+      "Create responsive designs that work perfectly on all devices, from mobile to desktop.",
+  },
+  {
+    title: "Security First",
+    icon: Shield,
+    description:
+      "Implement robust authentication, authorization, and security measures to protect your applications.",
+  },
+  {
+    title: "High Performance",
+    icon: Zap,
+    description:
+      "Optimize for speed and efficiency with server-side rendering, caching, and modern frameworks.",
+  },
+  {
+    title: "Team Collaboration",
+    icon: Users,
+    description:
+      "Built-in features for team management, role-based access control, and collaborative workflows.",
+  },
+  {
+    title: "Rapid Deployment",
+    icon: Rocket,
+    description:
+      "Launch your projects quickly with automated CI/CD pipelines and containerized deployments.",
+  },
+];
 export default StickyGlobeLayout;

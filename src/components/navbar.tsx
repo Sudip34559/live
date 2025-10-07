@@ -38,7 +38,7 @@ export function NavbarHome() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <Navbar>
+    <Navbar className="z-50">
       {/* Desktop Navigation */}
       <NavBody>
         <NavbarLogo />
@@ -73,26 +73,18 @@ export function NavbarHome() {
               key={`mobile-link-${idx}`}
               href={item.link}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="relative text-neutral-600 dark:text-neutral-300"
+              className="relative text-neutral-600 dark:text-[#e0e7ff]"
             >
               <span className="block">{item.name}</span>
             </Link>
           ))}
           <div className="flex w-full flex-col gap-4">
-            <NavbarButton
+            <Button
               onClick={() => setIsMobileMenuOpen(false)}
-              variant="primary"
               className="w-full"
             >
               Login
-            </NavbarButton>
-            <NavbarButton
-              onClick={() => setIsMobileMenuOpen(false)}
-              variant="primary"
-              className="w-full"
-            >
-              Book a call
-            </NavbarButton>
+            </Button>
           </div>
         </MobileNavMenu>
       </MobileNav>
