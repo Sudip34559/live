@@ -14,6 +14,7 @@ import { useState } from "react";
 import { ToggleTheme } from "./Theme-toggle";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function NavbarHome() {
   const navItems = [
@@ -34,7 +35,7 @@ export function NavbarHome() {
       link: "#contact",
     },
   ];
-
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -44,7 +45,11 @@ export function NavbarHome() {
         <NavbarLogo />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4 z-0">
-          <Button variant="outline" size="sm">
+          <Button
+            onClick={() => router.push("sign-in")}
+            variant="outline"
+            size="sm"
+          >
             Login
           </Button>
           {/* <ToggleTheme /> */}
@@ -80,7 +85,10 @@ export function NavbarHome() {
           ))}
           <div className="flex w-full flex-col gap-4">
             <Button
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                router.push("sign-in");
+              }}
               className="w-full"
             >
               Login

@@ -1,7 +1,5 @@
 import { cn } from "@/lib/utils";
 import React from "react";
-import { Boxes } from "./ui/background-boxes";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -15,12 +13,20 @@ import {
   MapPin,
   Heart,
 } from "lucide-react";
+import dynamic from "next/dynamic";
+const Boxes = dynamic(
+  () => import("./ui/background-boxes").then((mod) => mod.Boxes),
+  {
+    ssr: false,
+  }
+);
 export default function Footer() {
   return (
     <footer className="relative w-full overflow-hidden  flex flex-col items-center justify-center rounded-lg">
       <div className="absolute inset-0 w-full h-full z-20 pointer-events-none" />
+
       <Boxes />
-      <div className=" w-full z-50 pointer-events-none py-5">
+      <div className=" w-full z-40 pointer-events-none py-5">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-5 pointer-events-none">
           {/* Brand Section */}
@@ -39,7 +45,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation Links */}
-          <div className="space-y-4">
+          <div className="space-y-4 ">
             <h4 className="text-sm font-semibold text-foreground">
               Navigation
             </h4>
@@ -49,7 +55,7 @@ export default function Footer() {
                   <li key={link}>
                     <a
                       href={`/${link.toLowerCase()}`}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors pointer-events-auto"
                     >
                       {link}
                     </a>
@@ -60,7 +66,7 @@ export default function Footer() {
           </div>
 
           {/* Legal Links */}
-          <div className="space-y-4">
+          <div className="space-y-4 ">
             <h4 className="text-sm font-semibold text-foreground">Legal</h4>
             <ul className="space-y-2">
               {[
@@ -72,7 +78,7 @@ export default function Footer() {
                 <li key={link}>
                   <a
                     href={`/${link.toLowerCase().replace(/ /g, "-")}`}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors pointer-events-auto"
                   >
                     {link}
                   </a>
@@ -91,7 +97,7 @@ export default function Footer() {
             </p>
 
             {/* Newsletter Signup */}
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 pointer-events-auto">
               <Input
                 type="email"
                 placeholder="Enter your email"
@@ -108,7 +114,7 @@ export default function Footer() {
                 <Mail className="w-4 h-4" />
                 <a
                   href="mailto:support@edumeets.io"
-                  className="hover:text-foreground transition-colors"
+                  className="hover:text-foreground transition-colors pointer-events-auto"
                 >
                   support@edumeets.io
                 </a>
@@ -157,7 +163,7 @@ export default function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors pointer-events-auto"
                   aria-label={label}
                 >
                   <Icon className="w-4 h-4" />

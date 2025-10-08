@@ -1,17 +1,58 @@
 "use client";
-import { BentoGridSection } from "@/components/BentoGridSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import Footer from "@/components/footer";
-import Hero from "@/components/hero";
-import { InfiniteMovingCardsDemo } from "@/components/InfiniteMovingCardsSection";
-import BlurLayout from "@/components/layout/blur-layout";
-import { LayoutGridSection } from "@/components/LayoutGridSection";
-import { MacbookScrollDemo } from "@/components/MacbookScroll";
-import { PlusSymbol } from "@/components/PlusSymbol";
-import { SparklesPreview } from "@/components/SparklesPreview";
-import StickyGlobeLayout from "@/components/StickyGlobeLayout";
 import PageLoader from "@/components/ui/page-loader";
+import { Skeleton } from "@/components/ui/skeleton";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
+
+const Hero = dynamic(
+  () => import("@/components/hero").then((mod) => mod.default),
+  {
+    loading: () => <Skeleton className="h-[700px] w-full bg-[#1c1917]" />,
+    ssr: false,
+  }
+);
+
+const BentoGridSection = dynamic(() =>
+  import("@/components/BentoGridSection").then((mod) => mod.BentoGridSection)
+);
+
+const FeaturesSection = dynamic(() =>
+  import("@/components/FeaturesSection").then((mod) => mod.FeaturesSection)
+);
+
+const Footer = dynamic(() => import("@/components/footer"), {
+  ssr: false, // optional — skip SSR if client-only
+});
+
+const InfiniteMovingCardsDemo = dynamic(() =>
+  import("@/components/InfiniteMovingCardsSection").then(
+    (mod) => mod.InfiniteMovingCardsDemo
+  )
+);
+
+const BlurLayout = dynamic(() => import("@/components/layout/blur-layout"), {
+  ssr: false,
+});
+
+const LayoutGridSection = dynamic(() =>
+  import("@/components/LayoutGridSection").then((mod) => mod.LayoutGridSection)
+);
+
+const MacbookScrollDemo = dynamic(() =>
+  import("@/components/MacbookScroll").then((mod) => mod.MacbookScrollDemo)
+);
+
+const PlusSymbol = dynamic(() =>
+  import("@/components/PlusSymbol").then((mod) => mod.PlusSymbol)
+);
+
+const SparklesPreview = dynamic(() =>
+  import("@/components/SparklesPreview").then((mod) => mod.SparklesPreview)
+);
+
+const StickyGlobeLayout = dynamic(() =>
+  import("@/components/StickyGlobeLayout").then((mod) => mod.default)
+);
 
 function Home() {
   return (

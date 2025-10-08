@@ -1,6 +1,13 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { LayoutGrid } from "./ui/layout-grid";
+import dynamic from "next/dynamic";
+
+const LayoutGrid = dynamic(
+  () => import("./ui/layout-grid").then((mod) => mod.LayoutGrid),
+  {
+    ssr: false,
+  }
+);
 
 export function LayoutGridSection() {
   return (

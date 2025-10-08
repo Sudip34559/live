@@ -1,7 +1,12 @@
 "use client";
 import React from "react";
-import { SparklesCore } from "./ui/sparkles";
-
+import dynamic from "next/dynamic";
+const SparklesCore = dynamic(
+  () => import("./ui/sparkles").then((mod) => mod.SparklesCore),
+  {
+    ssr: false,
+  }
+);
 export function SparklesPreview() {
   return (
     <div className=" w-full flex flex-col items-center justify-center overflow-hidden pt-5">

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const PageLoder = () => {
   return (
-    <div className="flex justify-center items-center h-screen w-full bg-black/[0.4]">
+    <div className="flex justify-center items-center h-screen w-full bg-black/[0.4] z-50">
       <StyledWrapper>
         <div className="loading">
           <span />

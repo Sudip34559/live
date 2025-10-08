@@ -1,8 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
-import { InfiniteMovingCards } from "./ui/infinite-moving-cards";
 
+const InfiniteMovingCards = dynamic(
+  () =>
+    import("./ui/infinite-moving-cards").then((mod) => mod.InfiniteMovingCards),
+  {
+    ssr: false,
+  }
+);
 export function InfiniteMovingCardsDemo() {
   return (
     <div className="flex flex-col antialiased dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">

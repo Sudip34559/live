@@ -1,6 +1,23 @@
 import React from "react";
-import { MacbookScroll } from "@/components/ui/macbook-scroll";
-import { ContainerScroll } from "./ui/container-scroll-animation";
+import dynamic from "next/dynamic";
+
+const MacbookScroll = dynamic(
+  () =>
+    import("@/components/ui/macbook-scroll").then((mod) => mod.MacbookScroll),
+  {
+    ssr: false,
+  }
+);
+
+const ContainerScroll = dynamic(
+  () =>
+    import("./ui/container-scroll-animation").then(
+      (mod) => mod.ContainerScroll
+    ),
+  {
+    ssr: false,
+  }
+);
 
 export function MacbookScrollDemo() {
   return (
