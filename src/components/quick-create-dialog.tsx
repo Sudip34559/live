@@ -31,6 +31,8 @@ import {
 } from "./ui/select";
 import { createQuickRoom } from "@/apis/api";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { CopyGroup } from "./ui/CopyGroup";
 
 interface QuickCreateProps {
   isOpen: boolean;
@@ -46,8 +48,10 @@ const FormSchema = z.object({
 
 export function QuickCreate({ isOpen, onOpenChange }: QuickCreateProps) {
   const { data: session } = useSession();
+  const [rooId, setRooId] = useState<string | null>(null);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {},
   });
 
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -58,11 +62,12 @@ export function QuickCreate({ isOpen, onOpenChange }: QuickCreateProps) {
     await createQuickRoom({ ...data, timeZone }).then((res) => {
       if (res.data.success) {
         console.log(res.data);
+        setRooId(res.data.room._id);
         form.reset({
           title: "",
           roomType: "meeting",
         });
-        onOpenChange(false);
+        // onOpenChange(false);
         toast(`${res.data.room.roomType} created successfully`, {
           description: `Today ${res.data.room.startTime} to ${res.data.room.endTime}`,
           action: {
@@ -75,66 +80,81 @@ export function QuickCreate({ isOpen, onOpenChange }: QuickCreateProps) {
   }
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <Form {...form}>
-        <form>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Create Room</DialogTitle>
-            </DialogHeader>
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Room title"
-                      {...field}
-                      defaultValue={`${session?.user.name}'s room`}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="roomType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Type</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+      {!rooId ? (
+        <Form {...form}>
+          <form>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Create Room</DialogTitle>
+              </DialogHeader>
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Title</FormLabel>
                     <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select room type" />
-                      </SelectTrigger>
+                      <Input placeholder="Room title" {...field} />
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value="classroom">Classroom</SelectItem>
-                      <SelectItem value="meeting">Meeting</SelectItem>
-                      <SelectItem value="webinar">Webinar</SelectItem>
-                      <SelectItem value="event">Event</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DialogClose>
-              <Button type="submit" onClick={form.handleSubmit(onSubmit)}>
-                Create
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </form>
-      </Form>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="roomType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Type</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select room type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="classroom">Classroom</SelectItem>
+                        <SelectItem value="meeting">Meeting</SelectItem>
+                        <SelectItem value="webinar">Webinar</SelectItem>
+                        <SelectItem value="event">Event</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
+                <Button type="submit" onClick={form.handleSubmit(onSubmit)}>
+                  Create
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </form>
+        </Form>
+      ) : (
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Room Created</DialogTitle>
+          </DialogHeader>
+          <CopyGroup
+            value={`${process.env.NEXT_PUBLIC_API_BASE_URL}/room/${rooId}`}
+          />
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button type="submit" onClick={() => setRooId(null)}>
+              Create New
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      )}
     </Dialog>
   );
 }

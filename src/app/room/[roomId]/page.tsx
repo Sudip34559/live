@@ -2,13 +2,16 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import JitsiRoom from "@/components/jitsi-room";
+import { useSession } from "next-auth/react";
+import JitsiMeetingRoom from "@/components/new-jitsi-room";
 function page({ params }: { params: { roomId: string } }) {
   const { roomId } = params;
   const searchParams = useSearchParams();
-  const userName = searchParams.get("name") || "guest";
+  const { data: session } = useSession();
+  const userName = searchParams.get("name") || session?.user.name || "Guest";
   return (
     <main className="w-full h-screen">
-      <JitsiRoom roomId={roomId} userName={userName} />
+      <JitsiMeetingRoom roomId={roomId} userName={userName} />
     </main>
   );
 }

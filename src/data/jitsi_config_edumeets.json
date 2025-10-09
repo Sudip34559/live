@@ -1,0 +1,132 @@
+{
+  "hosts": {
+    "domain": "live.edusathi.net",
+    "anonymousdomain": "guest.live.edusathi.net",
+    "authdomain": "live.edusathi.net",
+    "focus": "focus.live.edusathi.net",
+    "muc": "conference.live.edusathi.net"
+  },
+  "bosh": "//live.edusathi.net/http-bind",
+  "websocket": "wss://live.edusathi.net/xmpp-websocket",
+  "clientNode": "http://jitsi.org/jitsimeet",
+  "enableUserRolesBasedOnToken": true,
+  "lobby": {
+    "autoKnock": true,
+    "enableChat": true,
+    "showHangUp": true
+  },
+  "securityUi": {
+    "hideLobbyButton": false,
+    "disableLobbyPassword": false
+  },
+  "requireDisplayName": true,
+  "prejoinConfig": {
+    "enabled": true,
+    "hideDisplayName": false,
+    "hideExtraJoinButtons": [
+      "by-phone"
+    ]
+  },
+  "enableInsecureRoomNameWarning": true,
+  "startWithAudioMuted": true,
+  "startWithVideoMuted": false,
+  "startAudioOnly": false,
+  "disableModeratorIndicator": false,
+  "disableJoinLeaveNotifications": true,
+  "disableResponsiveTiles": false,
+  "disableShortcuts": false,
+  "disableDeepLinking": true,
+  "enableClosePage": false,
+  "enableWelcomePage": false,
+  "defaultLocalDisplayName": "Me",
+  "defaultRemoteDisplayName": "Guest",
+  "readOnlyName": false,
+  "participantsPane": {
+    "hideModeratorSettingsTab": false,
+    "hideMoreActionsButton": false,
+    "hideMuteAllButton": false
+  },
+  "disableRemoteMute": false,
+  "enableRemoteVideoMenu": true,
+  "disableRemoteControl": false,
+  "disablePolls": false,
+  "disableSelfDemote": true,
+  "screenshotCapture": {
+    "enabled": false,
+    "mode": "recording"
+  },
+  "disableShowMoreStats": true,
+  "enableNoisyMicDetection": true,
+  "enableOpusRed": true,
+  "welcomePage": {
+    "disabled": false,
+    "customUrl": ""
+  },
+  "toolbarButtons": [
+    "microphone",
+    "camera",
+    "closedcaptions",
+    "desktop",
+    "fullscreen",
+    "fodeviceselection",
+    "hangup",
+    "profile",
+    "chat",
+    "recording",
+    "livestreaming",
+    "sharedvideo",
+    "settings",
+    "raisehand",
+    "videoquality",
+    "filmstrip",
+    "stats",
+    "shortcuts",
+    "tileview",
+    "download",
+    "help",
+    "mute-everyone",
+    "security",
+    "participants-pane"
+  ],
+  "toolbarConfig": {
+    "initialTimeout": 20000,
+    "timeout": 4000,
+    "alwaysVisible": false,
+    "autoHideWhileChatIsOpen": false
+  },
+  "notifyOnConferenceDestruction": true,
+  "p2p": {
+    "enabled": false
+  },
+  "fileRecordingsEnabled": false,
+  "liveStreamingEnabled": false,
+  "hiddenDomain": "recorder.live.edusathi.net",
+  "defaultLogoUrl": "",
+  "brandingDataUrl": "",
+  "resolution": 720,
+  "constraints": {
+    "video": {
+      "height": {
+        "ideal": 720,
+        "max": 720,
+        "min": 240
+      }
+    }
+  },
+  "channelLastN": 20,
+  "etherpad_base": "",
+  "analytics": {},
+  "deploymentInfo": {
+    "shard": "default",
+    "region": "ap-south",
+    "userRegion": "ap-south"
+  },
+  "desktopSharingFrameRate": {
+    "min": 5,
+    "max": 30
+  },
+  "testing": {
+    "disableE2EE": false,
+    "p2pTestMode": false
+  }
+}

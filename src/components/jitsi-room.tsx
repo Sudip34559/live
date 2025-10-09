@@ -4,6 +4,8 @@ import { JitsiMeeting } from "@jitsi/react-sdk";
 
 // Type definitions
 interface RoomData {
+  isModerator: boolean;
+  isName: boolean;
   meetingLink: string;
   jwt: string;
   participantCount: number;
@@ -139,6 +141,12 @@ const JitsiRoom: React.FC<JitsiRoomProps> = ({
     };
 
     // Add event listeners
+    api.addEventListener("participantRoleChanged", (e: any) => {
+      console.log(e);
+      if (e.role === "moderator") {
+        api.executeCommand("toggleLobby", true); // Turn on lobby for the room now. [web:81]
+      }
+    });
     api.addEventListener("readyToClose", handleReadyToClose);
     api.addEventListener("videoConferenceLeft", handleVideoConferenceLeft);
     api.addEventListener("participantLeft", handleParticipantLeft);
@@ -303,6 +311,80 @@ const JitsiRoom: React.FC<JitsiRoomProps> = ({
           jwt={roomData.jwt}
           onApiReady={handleApiReady}
           configOverwrite={{
+            participantsPane: {
+              hideModeratorSettingsTab: !roomData.isModerator, // Hide moderator settings tab
+              hideMoreActionsButton: !roomData.isModerator, // Hide "more actions" for participants
+              hideMuteAllButton: !roomData.isModerator, // Hide "mute all" button
+            },
+            disableRemoteMute: !roomData.isModerator, // Prevent being muted by others
+            enableRemoteVideoMenu: roomData.isModerator,
+            enableRemoteVideoAction: roomData.isModerator,
+            disableRemoteControl: !roomData.isModerator,
+            disablePolls: false, // desable the poll
+            disableSelfDemote: roomData.isModerator, // Disables demote button from self-view
+            screenshotCapture: {
+              //      Enables the screensharing capture feature.
+              enabled: false,
+              //      The mode for the screenshot capture feature.
+              //      Can be either 'recording' - screensharing screenshots are taken
+              //      only when the recording is also on,
+              //      or 'always' - screensharing screenshots are always taken.
+              mode: "recording",
+            },
+
+            // Enabling this will hide the "Show More" link in the GSM popover that can be
+            // used to display more statistics about the connection (IP, Port, protocol, etc).
+            disableShowMoreStats: true,
+
+            // Enabling this will run the lib-jitsi-meet noise detection module which will
+            // notify the user if there is noise, other than voice, coming from the current
+            // selected microphone. The purpose it to let the user know that the input could
+            // be potentially unpleasant for other meeting participants.
+            enableNoisyMicDetection: true,
+
+            // Enables support for opus-red (redundancy for Opus).
+            enableOpusRed: true,
+
+            welcomePage: {
+              //     // Whether to disable welcome page. In case it's disabled a random room
+              //     // will be joined when no room is specified.
+              disabled: false,
+              //     // If set, landing page will redirect to this URL.
+              customUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+            },
+
+            lobby: {
+              autoKnock: true, // When lobby is enabled, auto-send “request to join” (knock). [web:21]
+              enableChat: true, // Allow chat messaging while waiting in lobby. [web:21]
+              showHangUp: true, // Show hang up on lobby screen UI. [web:21]
+            },
+
+            securityUi: {
+              hideLobbyButton: false, // Keep lobby button visible so moderators can see/toggle it. [web:21]
+              disableLobbyPassword: false, // Keep lobby passcode feature available in the security dialog. [web:21]
+            },
+
+            // Require a visible name so admission decisions are clearer.
+            requireDisplayName: true, // Force users to provide a display name (or via jwt/userInfo). [web:21]
+
+            // Prejoin screen helps confirm devices and name before knocking.
+            prejoinConfig: {
+              enabled: !roomData.isModerator,
+              hideDisplayName: userName !== "Guest", // Let users edit the name on prejoin if not provided. [web:21]
+              hideExtraJoinButtons: ["by-phone"], // Clean up extra options if not needed. [web:21]
+            },
+
+            // Make unsafe room name warning show if no lobby/password is set, promoting secure behavior.
+            enableInsecureRoomNameWarning: true, // Nudges toward using lobby or passcode. [web:21]
+
+            // Minor UI/behavior niceties (optional).
+            disableResponsiveTiles: false, // Keep responsive tiles (set true to lock layout). [web:21]
+            disableShortcuts: false, // Keep keyboard shortcuts enabled. [web:21]
+            defaultLocalDisplayName: "Me", // Default if no name provided yet. [web:21]
+            defaultRemoteDisplayName: "Guest", // Placeholder for unnamed participants. [web:21]
+            readOnlyName: false, // Allow editing unless name comes from JWT. [web:21]
+
+            autoCaptionOnRecord: true,
             startWithAudioMuted: true,
             prejoinPageEnabled: false,
             disableModeratorIndicator: false,
@@ -310,7 +392,7 @@ const JitsiRoom: React.FC<JitsiRoomProps> = ({
             disableDeepLinking: true,
             enableClosePage: false,
             enableWelcomePage: false,
-            inviteDomain: "localhost:3000",
+            inviteDomain: process.env.NEXT_PUBLIC_API_BASE_URL,
           }}
           interfaceConfigOverwrite={{
             // Logo and branding removal
@@ -326,36 +408,33 @@ const JitsiRoom: React.FC<JitsiRoomProps> = ({
               "camera",
               "closedcaptions",
               "desktop",
-              "embedmeeting",
               "fullscreen",
               "fodeviceselection",
               "hangup",
               "profile",
               "chat",
-              "recording",
-              "livestreaming",
-              "etherpad",
-              "sharedvideo",
+              roomData.isModerator && "recording",
+              roomData.isModerator && "livestreaming",
+              roomData.isModerator && "sharedvideo",
               "settings",
               "raisehand",
-              "videoquality",
-              "filmstrip",
-              "invite", // Keep the invite button
+              roomData.isModerator && "videoquality",
+              roomData.isModerator && "filmstrip",
               "feedback",
               "stats",
               "shortcuts",
               "tileview",
-              "videobackgroundblur",
+              roomData.isModerator && "videobackgroundblur",
               "download",
               "help",
-              "mute-everyone",
-              "security",
+              roomData.isModerator && "mute-everyone",
+              roomData.isModerator && "security",
             ],
 
             // Additional customizations
             DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
             DISABLE_FOCUS_INDICATOR: true,
-            APP_NAME: "EduSathi",
+            APP_NAME: "EduMeets",
             DEFAULT_BACKGROUND: "#000000",
           }}
           getIFrameRef={(parentNode: HTMLDivElement) => {

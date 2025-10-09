@@ -12,17 +12,7 @@ import dynamic from "next/dynamic";
 const PricingCard = dynamic(
   () => import("./pricing-card").then((mod) => mod.PricingCard),
   {
-    loading: () =>
-      [1, 2, 3, 4].map((i) => (
-        <div
-          className={cn(
-            "w-full flex justify-center",
-            i % 2 === 0 ? "sm:justify-start" : "sm:justify-end"
-          )}
-        >
-          <Skeleton key={i} className="h-[484px] w-[267px] rounded-2xl" />
-        </div>
-      )),
+    loading: () => <Skeleton className="h-[484px] w-[267px] rounded-2xl" />,
     ssr: false,
   }
 );

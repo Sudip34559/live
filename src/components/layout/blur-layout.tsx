@@ -10,6 +10,10 @@ export default function BlurLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { setTheme } = useTheme();
+  useEffect(() => {
+    setTheme("dark"); // force dark mode
+  }, [setTheme]);
   return (
     <div className="w-full h-screen">
       {/* Navbar at top level for window scroll detection */}

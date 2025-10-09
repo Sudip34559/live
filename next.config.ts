@@ -36,7 +36,6 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === "production", // Remove console logs in production
   },
-  distDir: "build",
   logging: {
     fetches: {
       fullUrl: true,
