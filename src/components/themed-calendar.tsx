@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Calendar, CalendarEvent } from "./ui/custom-calendar";
+import { getRoomByTime } from "@/apis/api";
+import { IRoom } from "@/models/Room";
 
 const sampleEvents: CalendarEvent[] = [
   {
@@ -43,7 +45,29 @@ const sampleEvents: CalendarEvent[] = [
 ];
 
 export default function EnhancedCalendarPage() {
-  const [events, setEvents] = useState<CalendarEvent[]>(sampleEvents);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [startTime, setStartTime] = useState<Date | undefined>(undefined);
+  const [endTime, setEndTime] = useState<Date | undefined>(undefined);
+
+  useEffect(() => {
+    getRoomByTime({ startTime, endTime }).then((res) => {
+      if (res.status) {
+        const events = res.data.rooms.map((room: IRoom) => {
+          return {
+            id: room._id,
+            title: room.title,
+            start: new Date(room.startTime),
+            end: new Date(room.endTime),
+            color: "warning",
+            description: room.description,
+            category: room.roomType,
+          };
+        });
+
+        setEvents(events);
+      }
+    });
+  }, []);
 
   const handleEventClick = (event: CalendarEvent) => {
     console.log("Event clicked:", event);

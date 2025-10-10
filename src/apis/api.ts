@@ -3,6 +3,7 @@ import api from "./axiosInstance";
 export const getPlans = async () => {
   return await api.get("/plans/display/all");
 };
+
 export const createQuickRoom = async ({
   title,
   roomType,
@@ -17,6 +18,23 @@ export const createQuickRoom = async ({
     roomType,
     timeZone,
   });
+};
+
+export const getRoomByTime = async ({
+  startTime,
+  endTime,
+}: {
+  startTime?: Date;
+  endTime?: Date;
+}) => {
+  const params = new URLSearchParams();
+
+  if (startTime) params.append("startTime", startTime.toISOString());
+  if (endTime) params.append("endTime", endTime.toISOString());
+
+  return await api.get(
+    `/room/time-line${params.toString() ? `?${params}` : ""}`
+  );
 };
 
 export const getCurrencyFromIP = async () => {

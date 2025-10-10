@@ -67,15 +67,15 @@ export interface EnhancedCalendarProps {
 
 type ViewType = "month" | "week" | "day";
 
-const EVENT_COLORS = {
-  primary: "bg-primary text-primary-foreground border-primary/50",
-  secondary: "bg-secondary text-secondary-foreground border-secondary/50",
-  destructive:
-    "bg-destructive text-destructive-foreground border-destructive/50",
-  success: "bg-green-500 text-white border-green-600",
-  warning: "bg-yellow-500 text-white border-yellow-600",
-  info: "bg-blue-500 text-white border-blue-600",
-};
+const EVENT_COLORS = [
+  "bg-primary text-primary-foreground border-primary/50",
+  "bg-secondary text-secondary-foreground border-secondary/50",
+
+  "bg-destructive text-destructive-foreground border-destructive/50",
+  "bg-green-500 text-white border-green-600",
+  "bg-yellow-500 text-white border-yellow-600",
+  "bg-blue-500 text-white border-blue-600",
+];
 
 export function Calendar({
   events = [],
@@ -217,8 +217,7 @@ export function Calendar({
       style={getEventStyle(event, date)}
       className={cn(
         "text-xs cursor-pointer hover:opacity-90 transition-all duration-200 rounded border-l-4 px-2 py-1 shadow-sm overflow-hidden",
-        EVENT_COLORS[event.color as keyof typeof EVENT_COLORS] ||
-          EVENT_COLORS.primary
+        EVENT_COLORS[Math.floor(Math.random() * EVENT_COLORS.length)]
       )}
       onClick={(e) => {
         e.stopPropagation();
@@ -319,8 +318,7 @@ export function Calendar({
               variant="secondary"
               className={cn(
                 "text-xs cursor-pointer hover:opacity-80 transition-opacity mb-1 block truncate",
-                EVENT_COLORS[event.color as keyof typeof EVENT_COLORS] ||
-                  EVENT_COLORS.primary
+                EVENT_COLORS[Math.floor(Math.random() * EVENT_COLORS.length)]
               )}
               onClick={(e) => {
                 e.stopPropagation();

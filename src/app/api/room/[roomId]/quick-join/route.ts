@@ -61,7 +61,7 @@ export async function GET(
       aud: process.env.JITSI_APP_ID,
       iss: process.env.JITSI_APP_ID,
       sub: process.env.JITSI_DOMAIN,
-      room: room.roomName, // ✅ Must match the roomName prop in JitsiMeeting
+      room: room.roomName,
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 4,
       context: {
         user: {
@@ -70,6 +70,7 @@ export async function GET(
           email: session?.user?.email || `guest@guest.local`,
           moderator: isModerator,
           lobby_bypass: isModerator,
+          affiliation: isModerator ? "owner" : "member",
         },
       },
     };

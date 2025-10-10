@@ -373,6 +373,17 @@ export default function JitsiMeetingRoom({
             hideExtraJoinButtons: ["by-phone"],
           },
 
+          localRecording: {
+            // Whether to disable local recording or not.
+            disable: false,
+
+            // Whether to notify all participants when a participant is recording locally.
+            notifyAllParticipants: false,
+
+            // Whether to disable the self recording feature (only local participant streams).
+            disableSelfRecording: false,
+          },
+
           // Start settings
           startWithAudioMuted: !roomData.isModerator, // Moderators unmuted
           startWithVideoMuted: false,
