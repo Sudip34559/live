@@ -72,6 +72,7 @@ export default function Footer() {
               {[
                 "Privacy Policy",
                 "Terms of Service",
+                "Refund Policy",
                 "Cookie Policy",
                 "Disclaimer",
               ].map((link) => (
@@ -113,10 +114,10 @@ export default function Footer() {
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="w-4 h-4" />
                 <a
-                  href="mailto:support@edumeets.io"
+                  href="mailto:edumeet.info@gmail.com"
                   className="hover:text-foreground transition-colors pointer-events-auto"
                 >
-                  support@edumeets.io
+                  edumeet.info@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">

@@ -5,8 +5,10 @@ import RippleGrid from "./RippleGrid";
 import TextType from "./TextType";
 import SplitText from "./SplitText";
 import AnimatedButton from "./ui/AnimatedButton";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
+  const navigate = useRouter();
   return (
     <section className="w-full h-[700px] relative  border-b border-border  ">
       <div className="absolute w-full h-full top-0 flex flex-col item-center justify-center z-30 pb-[200px]">
@@ -36,7 +38,11 @@ export default function Hero() {
             showCursor={true}
             cursorCharacter="|"
           />
-          <AnimatedButton text="Lets Go" className="w-48 " />
+          <AnimatedButton
+            onClick={() => navigate.push("/pricing")}
+            text="Lets Go"
+            className="w-48 "
+          />
         </div>
       </div>
       <RippleGrid

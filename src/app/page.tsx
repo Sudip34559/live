@@ -21,6 +21,7 @@ const FeaturesSection = dynamic(() =>
 );
 
 const Footer = dynamic(() => import("@/components/footer"), {
+  loading: () => <Skeleton className="h-[700px] w-full bg-[#1c1917]" />,
   ssr: false, // optional — skip SSR if client-only
 });
 
@@ -34,8 +35,15 @@ const BlurLayout = dynamic(() => import("@/components/layout/blur-layout"), {
   ssr: false,
 });
 
-const LayoutGridSection = dynamic(() =>
-  import("@/components/LayoutGridSection").then((mod) => mod.LayoutGridSection)
+const LayoutGridSection = dynamic(
+  () =>
+    import("@/components/LayoutGridSection").then(
+      (mod) => mod.LayoutGridSection
+    ),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[700px] w-full bg-[#1c1917]" />,
+  }
 );
 
 const MacbookScrollDemo = dynamic(() =>
